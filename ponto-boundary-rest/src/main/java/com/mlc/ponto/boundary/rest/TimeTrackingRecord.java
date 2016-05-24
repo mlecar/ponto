@@ -1,5 +1,8 @@
 package com.mlc.ponto.boundary.rest;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 
 public class TimeTrackingRecord {
@@ -7,26 +10,39 @@ public class TimeTrackingRecord {
     @Id
     private String id;
 
-    private int day;
-    private int month;
-    private int year;
-    private int hour;
-    private int minute;
+    private Date dateTime;
 
     public TimeTrackingRecord() {
     }
 
-    public TimeTrackingRecord(int day, int month, int year, int hour, int minute) {
-        this.day = day;
-        this.month = month;
-        this.year = year;
-        this.hour = hour;
-        this.minute = minute;
+    public TimeTrackingRecord(Date day, Date time) {
+        Calendar calDay = Calendar.getInstance();
+        calDay.setTime(day);
+
+        Calendar calTime = Calendar.getInstance();
+        calTime.setTime(time);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(calDay.get(Calendar.YEAR), calDay.get(Calendar.MONTH), calDay.get(Calendar.DAY_OF_MONTH), calTime.get(Calendar.HOUR_OF_DAY), calTime.get(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, 0);
+        this.dateTime = cal.getTime();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
     }
 
     @Override
     public String toString() {
-        return "TimeTrackingRecord [id=" + id + ", day=" + day + ", month=" + month + ", year=" + year + ", hour=" + hour + ", minute=" + minute + "]";
+        return "TimeTrackingRecord [id=" + id + ", dateTime=" + dateTime + "]";
     }
 
 }
